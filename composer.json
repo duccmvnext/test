@@ -1,0 +1,23 @@
+{
+  "name": "continuoustraining/zf1-formation-helloworld",
+  "description": "Zend Framework 1",
+  "type": "library",
+  "keywords": [
+    "framework",
+    "zf1"
+  ],
+  "homepage": "http://framework.zend.com/",
+  "license": "BSD-3-Clause",
+  "require": {
+    "php": ">=5.2.11",
+    "zendframework/zendframework1": "^1.12",
+    "phing/phing": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "3.7.*",
+    "phpunit/dbunit": "1.3.*"
+  },
+  "config": {
+    "bin-dir": "bin"
+  }
+}

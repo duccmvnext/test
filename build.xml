@@ -1,0 +1,17 @@
+<project name="zf1" default="help" basedir=".">
+
+    <target name="setup-db" description="Setup Database Credentials">
+        <loadfile property="db.config" file="${project.basedir}/application/configs/application.ini.dist">
+            <filterchain>
+                <replacetokens>
+                    <token key="db.host" value="${db.host}"/>
+                    <token key="db.username" value="${db.username}"/>
+                    <token key="db.password" value="${db.password}"/>
+                    <token key="db.name" value="${db.name}"/>
+                </replacetokens>
+            </filterchain>
+        </loadfile>
+        <echo message="${db.config}" file="${project.basedir}/application/configs/application.ini"/>
+    </target>
+
+</project>

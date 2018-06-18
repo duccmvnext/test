@@ -1,0 +1,142 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  
+
+  <!-- Required meta tags -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <title>User Management</title>
+
+  
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">User Management</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</nav>
+<div class="container">
+  <div class="mt-3">
+  <?php echo $this->layout()->content ?>
+  </div>
+
+</div>
+
+
+
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+ 
+
+<script> 
+
+  function addUserToTable(data){
+    var c = [];          
+    $.each(data,function(index, value){
+      console.log(value);
+      c.push("<tr><th scope='row'>"+value.id+"</th>");
+      c.push("<td>"+value.username+"</td>");
+      c.push("<td>"+value.name+"</td>");
+      c.push("<td>"+value.created+"</td>");
+      c.push('<td><button class="btn btn-danger delete" id="'+value.id+'">DELETE</button>');
+      c.push('<button class="btn btn-primary ml-3 edit" id="'+value.id+'">UPDATE NAME</button>');
+      c.push('</td></tr>')
+    });
+    $('#UserTableBody').html(c.join(""));
+    
+    //delete User when clicked
+    $('.delete').click(function(){
+      deleteUser(this.id);
+    });
+
+    //update User when clicked
+    $('.edit').click(function(){
+      $('#updateModal').modal('show');
+      $('#UserId').attr('value',this.id);
+    });
+    
+  }
+  
+  function sendUpdate(id,name){
+    $.ajax({
+      url: '/index/update/'+id,
+      type: 'POST',
+      data: {name:this.name},
+      success: function(){
+        getUserList();
+      }
+    })
+  }
+
+  function deleteUser(id){
+    $.ajax({
+        url: 'index/delete',
+        type: 'POST',
+        data: {id:id},
+        success: function(){
+          getUserList();
+        }
+      });
+  }
+  
+  function getUserList(){
+    $.ajax({
+        url: "index/list",
+        type: "GET",
+        dataType: "json",
+        success: function(data){
+          addUserToTable(data);
+        },
+        error: function(error){
+            console.log("Error:");
+            console.log(error);
+        }
+      });
+    
+    
+    
+  }
+
+  // wait for the DOM to be loaded 
+  $(document).ready(function() { 
+      // bind 'myForm' and provide a simple callback function 
+      $('#createUserForm').ajaxForm(function() { 
+          //alert("Creating User");
+          getUserList();
+          $('.close').click();
+      });
+
+      $('#editUserForm').ajaxForm(function() { 
+          //alert("Creating User");
+          getUserList();
+          $('.close').click();
+      });
+      
+      $('.create').click(function(){
+        $('#createModal').modal('show');
+      });
+      //get user data
+      getUserList();
+  });
+
+  
+
+</script> 
+
+</body>
+</html>

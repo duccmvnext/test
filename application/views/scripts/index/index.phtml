@@ -1,0 +1,104 @@
+<h4>DANH SÁCH NGƯỜI DÙNG</h4> 
+<!-- <button class="btn btn-success" data-toggle="modal" data-target="#createModal">NEW</button> -->
+<button class="btn btn-success create" data-toggle="modal" >NEW</button>
+<!-- Create Form Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createModalLabel">Create New User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+      <form id="createUserForm" action="/index/create" method="POST">
+            <div class="form-group">
+                <label for="Username">Username:</label>
+                <input name="username" type="text" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="Name">Name:</label>
+                <input name="name" type="text" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="Password">Password:</label>
+                <input name="password" type="password" class="form-control" required>
+            </div>
+            <!-- <input type="hidden" name="csrf" id="csrf"> -->
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<div class="row mt-3" >
+<table class="table table-hover" id="UserTable">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Username</th>
+            <th scope="col">Name</th>
+            <th scope="col">Created At</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <?php //foreach ($this->users as $user): ?>
+    <tbody id="UserTableBody">
+        <tr>
+            <th scope="row"><?php //$user->id ?></th>
+            <td ><?php //$user->username ?></td>
+            <td ><?php //$user->name ?></td>
+            <td ><?php //$user->created ?></td>
+            <td>
+                <div class="row">
+                    <form action="/index/delete" method="POST">
+                        <input type="hidden" name="id" value="<?php //$user->id?>">
+                        <button type="submit" class="btn btn-danger" >DELETE</button>
+                    </form>
+
+                    <button class="btn btn-primary ml-3" data-toggle="modal" data-target="#updateModal">EDIT NAME</button>
+                </div> 
+            </td>
+            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateModalLabel">Update Name</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="editUserForm"  action="/index/update" method="POST">
+                            <div class="modal-body">
+                                <input type="hidden" name="id" class="form-control" id="UserId" value="" required>
+                                <div class="form-group">
+                                    <label for="Name">Name:</label>
+                                    <input type="text" name="name" class="form-control" id="UserName" value="" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="updateSubmit">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>       
+        </tr>
+    </tbody>
+    <?php //endforeach; ?>
+</table>
+</div>
+
+
+
+
+
+
+
+
+
+
